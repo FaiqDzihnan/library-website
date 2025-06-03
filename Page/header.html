@@ -1,0 +1,50 @@
+    <div>
+        <div class="decoration"></div>
+        <nav class="mainnav">
+            <div class="logo"><a href="/Page/index.html"><img src="/Resources/Logo (2).png" alt="silent library logo"></a></div>
+            <ul class="menu" id="menuClick">
+                <i class="fas fa-window-close" onclick="hideMenu()"></i>
+                <li><a href="/Page/index.html">Home</a></li>
+                <li><a href="/Page/About.html">About</a></li>
+                <li><a href="/Page/collection.html">Collections</a></li>
+                <li><a href="/Page/facility.html">Facilities</a></li>
+                <li><a href="/Page/membership.html">Membership</a></li>
+                <li><a href="/Page/support-us.html">Support Us</a></li>
+            </ul>
+            <div class="topnav" id="topNav">
+                <div>
+                    <button id="log" onclick="toggleLogin()">Log in</button>
+                    <button id="sign" onclick="toggleSignUp()">Sign up</a>
+                </div>
+                <form action="#">
+                    <input type="text" placeholder="search our collections.." name="search">
+                    <button type="submit"></button>
+                </form>
+            </div>
+            <i class="fa-solid fa-bars fa-2x" onclick="showMenu()"></i>
+        </nav>
+        <div class="decoration"></div>
+        <div class="wrapperlogin">
+            <form class="columnlogin">
+                <button id="close1" onclick="toggleLogin()">&times;</button>
+                <h1>log in</h1>
+                <input type="email" placeholder="email or username">
+                <input type="password" placeholder="enter your password">
+                <a class="forget" href="#">forget password</a>
+                <button type="submit" class="submitlogin" onclick="Login()">Log in</button>
+                <span>You don't have an account yet? <button id="createacc" onclick="toggleSignUp()">create it now</button></span>
+            </form> 
+        </div>
+        <div class="wrappersignup">
+            <form class="columnsignup">
+                <button id="close2" onclick="toggleSignUp()">&times;</button>
+                <h1>Sign up</h1>
+                <input type="username" placeholder="create an username">
+                <input type="email" placeholder="enter your email">
+                <input type="password" placeholder="enter your password">
+                <input type="password" placeholder="confirm your password">
+                <button type="submit" class="submitlogin" onclick="">Sign up</button>
+                <span>Already have an account?  <button id="backlog" onclick="toggleLogin()">login now</button></span>
+            </form>
+        </div>
+    </div>

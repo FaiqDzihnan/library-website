@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home>inquiry</title>
+    <link rel="stylesheet" href="/Css/style.css">
+    <script src="https://kit.fontawesome.com/03a8c50e9c.js" crossorigin="anonymous"></script>
+    <script src="/javascript/javascript.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+       $(document).ready(function(){
+          $('#header').load("header.html");
+          $('#footer').load("footer.html");
+       });
+    </script>
+</head>
+<body>
+    <header id="header"></header>
+    <div class="inquirypage">
+        <div id="logoinquiry"><a href="/Page/index.html"><img src="/Resources/Logo (2).png" alt="silentliblogo"></a>
+        </div>
+        <div class="inquirypagewrapper">
+            <div class="inquirypageform">
+                <h1>Send Us messages, Feedback or Questions. We we will get in touch with you as
+                    soon as possible.
+                </h1>
+                <input class="inputname" type="name" placeholder="Name">
+                <input class="inputemail" type="email" placeholder="Email">
+                <input class="inputsubject" type="text" placeholder="Subject">
+                <input class="inputmsg" type="text" placeholder="write your message and question">
+                <button type="submit" class="submitquestion">Send Message</button>
+            </div>
+            <div class="inquirypageinfo">
+                <h1>Contact Us</h1>
+                <div class="address">
+                    <p><i class="fa-solid fa-location-dot" style="padding: 10px;"></i><bold style="font-weight: 600;">Address :</bold>420 East 69th Street, Suite 721 Los Angeles 11069</p>
+                </div>
+                <div class="phone">
+                    <p><i class="fa-solid fa-phone" style="padding: 10px;"></i><bold style="font-weight: 600;">Phone :</bold>+1235 23455 98</p>
+                </div>
+                <div class="email">
+                    <p><i class="fa-solid fa-envelope"style="padding: 10px;"></i><bold style="font-weight: 600;">Email :</bold>reception@silentlibrary.com</p>
+                </div>
+                <div class="socialmedia">
+                    <a href="#"><img src="/Resources/icons8-facebook-48.png" alt="facebook icon"></a>
+                    <a href="#"><img src="/Resources/icons8-instagram-96.png" alt="instagram icon"></a>
+                    <a href="#"><img src="/Resources/icons8-youtube-96.png" alt="youtube icon"></a>
+                    <a href="#"><img src="/Resources/icons8-twitter-96.png" alt="twitter icon"></a>
+                    <a href="#"><img src="/Resources/icons8-linkedin-96.png" alt="linkedin icon"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer"></footer>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrower List</title>
+    <link rel="stylesheet" href="/Css/style.css">
+    <style>
+        .td-data {
+            padding: 10px 7px 10px;
+            text-align: center;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/03a8c50e9c.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script>
+         $(document).ready(function(){
+            $('#header').load("header-admin.html");
+            $('#footer').load("footer.html");
+         });
+      </script>
+</head>
+<body>
+    <header id="header"></header> 
+    <div class="container-crud">
+        <h1>Borrower List</h1>
+        <br />
+        <fieldset>
+            <legend>
+                Borrower List
+            </legend>
+            <table class="tablebrrw">
+                <thead>
+                    <tr>
+                        <th>userId</th>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>Book Title</th>
+                        <th>Borrow Date</th>
+                        <th>Return Date</th>
+                        <th>Days</th>
+                    </tr>
+                </thead>
+                <tbody id="tblbrrw">
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+    <footer id="footer"></footer>
+
+    <script>
+
+        bindUserData();
+        function addUserDataToLocalStorage(userBrrw) {
+    
+            //already has data in localstorage then update it other create new one
+            var users = JSON.parse(localStorage.getItem('brrwData'));
+            if (users != null) {
+                users.push(userBrrw);
+               
+                localStorage.setItem('brrwData', JSON.stringify(users));
+            }
+            else {
+                var brrwData = new Array();
+                brrwData.push(userBrrw);
+                localStorage.setItem('brrwData', JSON.stringify(brrwData));
+    
+            }
+        }
+
+        function updateDataToLocalStorage(userBrrw) {
+    
+            var users = JSON.parse(localStorage.getItem('brrwData'));
+            if (users != null) {
+                var user = users.filter((x) => x.id == userBrrw.id).pop();
+                if (user != null) {
+                    user.name = userBrrw.name;
+                    user.email = userBrrw.email;
+                    user.bookTitle = userBrrw.bookTitle;
+                    user.borrowDate = userBrrw.borrowDate;
+                    user.returnDate = userBrrw.returnDate;
+                    user.days = userBrrw.days;
+                }
+                localStorage.setItem('brrwData', JSON.stringify(users));
+            }
+        }
+    
+        function deletedataFromLocalStorage(UserId) {
+    
+            var users = JSON.parse(localStorage.getItem('brrwData'));
+            if (users != null) {
+                users.splice(users.findIndex(a => a.id === UserId), 1)
+                localStorage.setItem('brrwData', JSON.stringify(users));
+            }
+        }
+    
+    
+        function bindUserData() {
+            var users = JSON.parse(localStorage.getItem('brrwData'));
+            if (users != null) {
+                document.getElementById('tblbrrw').innerHTML = "";
+                users.forEach(function (item, index) {
+                    debugger;
+                    var btnEditId = "btnedit" + item.id;
+                    var btnDeleteId = "btndelete" + item.id;
+                    var tableRow = "<tr Id='" + item.id + "'   data-CustomerID='" + item.id + "'   data-name='" + item.name + "' data-email='" + item.email + "' data-title='" + item.title + "' data-borrow-date='" + item.borrowDate + "' data-return-date='" + item.returnDate + "' data-days='" + item.days + "'>"
+                        + "<td class='td-data'>" + item.id + "</td>"
+                        + "<td class='td-data'>" + item.name + "</td>"
+                        + "<td class='td-data'>" + item.email + "</td>"
+                        + "<td class='td-data'>" + item.bookTitle + "</td>"
+                        + "<td class='td-data'>" + item.borrowDate + "</td>"
+                        + "<td class='td-data'>" + item.returnDate + "</td>"
+                        + "<td class='td-data'>" + item.days + "</td>"
+                        + "<td class='td-data'>" +
+                        "<button id='" + btnEditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showEditRow(" + item.id + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+                        "<button id='" + btnDeleteId + "' class='btn btn-danger btn-xs btn-deleteCustomer' onclick='deleteRow(" + item.id + ")'>Delete</button>"
+                        + "</td>"
+                        + "</tr>";
+                    document.getElementById('tblbrrw').innerHTML += tableRow;
+                })
+            }
+            var AddRow = "<tr>"
+                + "<td class='td-data'></td>"
+                + "<td class='td-data'><input type='text' id='txtname' placeholder='name..'></td>"
+                + "<td class='td-data'><input type='email' id='txtemail' placeholder='email..'></td>"
+                + "<td class='td-data'><input type='text' id='txttitle' placeholder='book title..'</td>"
+                + "<td class='td-data'><input type='date' id='txtbrrwdate'</td>"
+                + "<td class='td-data'><input type='date' id='txtreturndate'</td>"
+                + "<td class='td-data'><input type='number' id='txtdays' placeholder='days..'</td>"
+                + "<td class='td-data'>" + "<button id= 'btnaddCustomer' onclick='addUser()' class='btn btn-success'> <i class='fa fa-plus-circle' aria-hidden='true'></i>Add</button>" + "</td>"
+                + "</tr>";
+            document.getElementById('tblbrrw').innerHTML += AddRow;
+        }
+    
+        function GetUserID() {
+            const ID = Date.now();
+            return ID;
+        }
+    
+        function addUser() {
+            var userId = GetUserID();
+            var txtname = document.getElementById("txtname").value;
+            if (!txtname) {
+                alert('Please enter name!')
+                return false;
+            }
+            var email = document.getElementById("txtemail").value;
+            if (!email) {
+                alert('Please enter email!')
+                return false;
+            }
+            var emailfilter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (!emailfilter.test(email)) {
+                alert('Please enter a valid email address!');
+                return false;
+            }
+            var bookTitle = document.getElementById("txttitle").value;
+            var borrowDate = document.getElementById("txtbrrwdate").value;
+            var returnDate = document.getElementById("txtreturndate").value;
+            var days = document.getElementById("txtdays").value;
+            var userBrrw = {
+                "id": userId,
+                "name": txtname,
+                "email": email,
+                "bookTitle": bookTitle,
+                "borrowDate": borrowDate,
+                "returnDate": returnDate,
+                "days": days
+            };
+            addUserDataToLocalStorage(userBrrw);
+            document.getElementById('txtname').value = "";    
+            document.getElementById('txtemail').value = "";
+            document.getElementById('txttitle').value = "";
+            document.getElementById('txtbrrwdate').value = " ";
+            document.getElementById('txtreturndate').value = "";
+            document.getElementById('txtdays').value = "";
+            bindUserData();
+        };
+    
+        function showEditRow(UserID) {
+            var userRow = document.getElementById(UserID); //this gives tr of  whose button was clicked
+            var trdata = userRow.querySelectorAll(".td-data");
+            /*returns array of all elements with
+            "row-data" class within the row with given id*/
+            var userID = trdata[0].innerHTML;
+            var userName = trdata[1].innerHTML;
+            var useremail = trdata[2].innerHTML;
+            var bookTitle = trdata[3].innerHTML;
+            var borrowDate = trdata[4].innerHTML;
+            var returnDate = trdata[5].innerHTML;
+            var days = trdata[6].innerHTML;
+    
+            trdata[0].innerHTML = '<input name="txtuserid"  disabled id="txtuserid" value="' + userID + '"/>';
+            trdata[1].innerHTML = '<input name="txtname" id="txtname" value="' + userName + '"/>';
+            trdata[2].innerHTML = '<input name="txtemail" id="txtemail" value="' + useremail + '"/>';
+            trdata[3].innerHTML = '<input name="txttitle" id="txttitle" value="' + bookTitle + '"/>';
+            trdata[4].innerHTML = '<input name="txtbrrwdate" id="txtbrrwdate" value="' + borrowDate + '"/>';
+            trdata[5].innerHTML = '<input name="txtreturndate" id="txtreturndate" value="' + returnDate + '"/>';
+            trdata[6].innerHTML = '<input name="txtdays" id="txtdays" value="' + days + '"/>';
+            trdata[7].innerHTML =
+                "<button class='btn btn-primary btn-xs btn-updateCustomer' onclick='updateUser(" + userID + ")'>" +
+                "<i class='fa fa-pencil' aria-hidden='true'></i>Update</button>"
+                + "<button class='btn btn-warning btn-xs btn-cancelupdate' onclick='cancel(" + userID + ")'><i class='fa fa-times' aria-hidden='true'></i>Cancel</button>"
+                + "<button class='btn btn-danger btn-xs btn-deleteCustomer' onclick='deleteUser(" + userID + ")'>"
+                + "<i class='fa fa-trash' aria-hidden='true'></i>Delete</button>"
+        }
+        function cancel(UserID) {
+            debugger;
+            var btneditId = "btnedit" + UserID;
+            var btndeleteId = "btndelete" + UserID;
+    
+            var CustomerRow = document.getElementById(UserID); //this gives tr of  whose button was clicked
+            var data = CustomerRow.querySelectorAll(".td-data");
+    
+            var name = CustomerRow.getAttribute("data-name");
+            var email = CustomerRow.getAttribute("data-email");
+            var bookTitle = CustomerRow.getAttribute("data-gender");
+            var borrowDate = CustomerRow.getAttribute("data-borrow-date");
+            var returnDate = CustomerRow.getAttribute("data-return-date");
+            var days = CustomerRow.getAttribute("data-days");
+    
+            data[0].innerHTML = UserID;
+            data[1].innerHTML = name;
+            data[2].innerHTML = email;
+            data[3].innerHTML = bookTitle;
+            data[4].innerHTML = borrowDate;
+            data[5].innerHTML = returnDate;
+            data[6].innerHTML = days;
+
+            var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showEditRow(" + UserID + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+                "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteCustomer' onclick='deleteRow(" + UserID + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
+            data[7].innerHTML = actionbtn;
+        }
+        function updateUser(UserID) {
+            var userRow = document.getElementById(UserID); //this gives tr of  whose button was clicked
+            var data = userRow.querySelectorAll(".td-data");
+            var name = data[1].querySelector("#txtname").value;
+            var email = data[2].querySelector("#txtemail").value;
+            var bookTitle = data[3].querySelector("#txttitle").value;
+            var borrowDate = data[4].querySelector("#txtbrrwdate").value;
+            var returnDate = data [5].querySelector("#txtreturndate").value;
+            var days = data [6].querySelector("#txtdays").value
+            var userBrrw = {
+                "id": UserID,
+                "name": name,
+                "email": email,
+                "bookTitle": bookTitle,
+                "borrowDate": borrowDate,
+                "returnDate": returnDate,
+                "days": days
+            };
+            updateDataToLocalStorage(userBrrw);
+            bindUserData();
+        }
+        function deleteRow(UserID) {
+            deletedataFromLocalStorage(UserID);
+            bindUserData();
+        }
+    </script>
+    
+</body>
+</html>
